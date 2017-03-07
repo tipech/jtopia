@@ -27,7 +27,7 @@ public class OpenNLPTagger extends DefaultTagger implements Tagger {
 	 * @param lexiconFileName
 	 * @return
 	 */
-	public void initialize(String lexiconFileName) {
+	public OpenNLPTagger(String lexiconFileName) {
 		try {
 			modelStream = new FileInputStream(lexiconFileName);
 			POSModel model = new POSModel(modelStream);
@@ -41,7 +41,6 @@ public class OpenNLPTagger extends DefaultTagger implements Tagger {
 	 * Tag the terms using openNLP POS Tagger
 	 */
 	public TermDocument tag(TermDocument termDocument) {
-		initialize(Configuration.getModelFileLocation());
 		TaggedTermsContainer taggedTermsContainer = new TaggedTermsContainer();
 		for(String term : termDocument.getTerms()) {
 			String tag = tagger.tag(term);

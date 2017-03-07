@@ -8,14 +8,14 @@ import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 public class StanfordTagger extends DefaultTagger implements Tagger {
 
-	MaxentTagger maxentTagger = null;
-	
-	public void initialize() {
+	public StanfordTagger(){
+
 		maxentTagger = new MaxentTagger(Configuration.getModelFileLocation());
 	}
+
+	private MaxentTagger maxentTagger = null;
 	
 	public TermDocument tag(TermDocument termDocument) {
-		initialize();
 		TaggedTermsContainer taggedTermsContainer = new TaggedTermsContainer();
 		for(String term : termDocument.getTerms()) {
 			String tag = maxentTagger.tagString(term);

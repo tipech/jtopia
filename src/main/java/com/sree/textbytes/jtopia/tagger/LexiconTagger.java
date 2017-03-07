@@ -20,14 +20,17 @@ import com.sree.textbytes.jtopia.container.TaggedTermsContainer;
  */
 
 public class LexiconTagger extends DefaultTagger implements Tagger {
+
+	private LinkedHashMap<String, String> tagsByTerm = null;
+
 	/**
 	 * Initializes the default POS tagger lexicon
 	 * 
 	 * @param lexiconFileName
 	 * @return 
 	 */
-	public LinkedHashMap<String, String> initialize(String lexiconFileName) {
-		LinkedHashMap<String, String> tagsByTerm = new LinkedHashMap<String, String>();
+	public LexiconTagger(String lexiconFileName) {
+		LinkedHashMap<String, String> tags = new LinkedHashMap<String, String>();
 		logger.debug("Lexicon initialization started");
 		FileInputStream fileInputStream = null;
 		BufferedReader bufferedReader = null;
@@ -44,15 +47,20 @@ public class LexiconTagger extends DefaultTagger implements Tagger {
 		try {
 			while ((line = bufferedReader.readLine()) != null) {
 				String[] terms = line.split(" ");
-				tagsByTerm.put(terms[0], terms[1]);
+				tags.put(terms[0], terms[1]);
 			}
 		} catch (IOException e) {
 			logger.error(e.toString(), e);
 		}
 
-		logger.debug("Lexicon initialization completed with size "+ tagsByTerm.size());
-		return tagsByTerm;
+		logger.debug("Lexicon initialization completed with size "+ tags.size());
+		
+		this.tagsByTerm = tags;
+	}
 
+	public LinkedHashMap<String, String> getTags () {
+
+		return tagsByTerm;
 	}
 	
 	/**
